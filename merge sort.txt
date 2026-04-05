@@ -1,0 +1,54 @@
+import matplotlib.pyplot as plt
+import random
+import time
+
+def merge_sort(arr, draw, speed):
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        left = arr[:mid]
+        right = arr[mid:]
+
+        merge_sort(left, draw, speed)
+        merge_sort(right, draw, speed)
+
+        i = j = k = 0
+
+        # Merge step
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                arr[k] = left[i]
+                i += 1
+            else:
+                arr[k] = right[j]
+                j += 1
+            k += 1
+            draw(arr)
+            time.sleep(speed)
+
+        while i < len(left):
+            arr[k] = left[i]
+            i += 1
+            k += 1
+            draw(arr)
+            time.sleep(speed)
+
+        while j < len(right):
+            arr[k] = right[j]
+            j += 1
+            k += 1
+            draw(arr)
+            time.sleep(speed)
+
+def draw_bars(arr):
+    plt.clf()
+    plt.bar(range(len(arr)), arr)
+    plt.title("Merge Sort Visualization")
+    plt.pause(0.01)
+
+# Generate random array
+arr = [random.randint(1, 100) for _ in range(20)]
+
+plt.figure()
+merge_sort(arr, draw_bars, 0.1)
+
+plt.show()
